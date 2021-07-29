@@ -1,4 +1,4 @@
-package com.example.android.whatsappcloneproject.startup;
+package com.example.android.whatsappcloneproject.view.startup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.android.whatsappcloneproject.MainActivity;
+import com.example.android.whatsappcloneproject.view.MainActivity;
 import com.example.android.whatsappcloneproject.R;
+import com.example.android.whatsappcloneproject.view.auth.PhoneLoginActivity;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeScreenActivity.this, MainActivity.class));
+                startActivity(new Intent(WelcomeScreenActivity.this, PhoneLoginActivity.class));
                 finish();
             }
         });

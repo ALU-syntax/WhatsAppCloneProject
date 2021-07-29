@@ -1,4 +1,4 @@
-package com.example.android.whatsappcloneproject;
+package com.example.android.whatsappcloneproject.view.startup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.android.whatsappcloneproject.startup.WelcomeScreenActivity;
+import com.example.android.whatsappcloneproject.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

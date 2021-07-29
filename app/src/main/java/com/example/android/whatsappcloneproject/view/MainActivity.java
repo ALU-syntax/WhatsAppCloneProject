@@ -1,4 +1,4 @@
-package com.example.android.whatsappcloneproject;
+package com.example.android.whatsappcloneproject.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.databinding.ActivityMainBinding;
 import com.example.android.whatsappcloneproject.menu.CallsFragment;
 import com.example.android.whatsappcloneproject.menu.ChatsFragment;
