@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +43,9 @@ public class PhoneLoginActivity extends AppCompatActivity{
 
     private ProgressDialog progressDialog;
 
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +54,16 @@ public class PhoneLoginActivity extends AppCompatActivity{
 
         //firebase Authentication
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            startActivity(new Intent(this, MainActivity.class));
+        }
 
         //
         progressDialog = new ProgressDialog(this);
+
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,16 +106,22 @@ public class PhoneLoginActivity extends AppCompatActivity{
                 mResendToken = token;
 
                 binding.btnNext.setText("Confirm");
+                binding.edCode.setVisibility(View.VISIBLE);
+                binding.edCodeCountry.setEnabled(false);
+                binding.edPhone.setEnabled(false);
+
                 progressDialog.dismiss();
 
                 //Update UI
-                verifyPhoneNumberWithCode(mVerificationId, binding.edCode.getText().toString());
             }
         };
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
+
+        progressDialog.setMessage("Send code to : "+phoneNumber);
+        progressDialog.show();
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)       // Phone number to verify
