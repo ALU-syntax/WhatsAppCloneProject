@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.databinding.ActivityPhoneLoginBinding;
+import com.example.android.whatsappcloneproject.model.user.Users;
 import com.example.android.whatsappcloneproject.view.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
@@ -153,8 +156,33 @@ public class PhoneLoginActivity extends AppCompatActivity{
                             Log.d(TAG, "signInWithCredential:success");
 
                             FirebaseUser user = task.getResult().getUser();
+
+                            if (user != null){
+                                String userID = user.getUid();
+                                Users users = new Users(userID,
+                                        "",
+                                        user.getPhoneNumber(),
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "");
+
+                                firestore.collection("Users").document("UserInfo").collection(userID)
+                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
+                                    }
+                                });
+                            } else{
+                                Toast.makeText(getApplicationContext(), "Something Error", Toast.LENGTH_SHORT).show();
+                            }
+
                             // Update UI
-                            startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
+                            //startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
                         } else {
                             progressDialog.dismiss();
                             // Sign in failed, display a message and update the UI

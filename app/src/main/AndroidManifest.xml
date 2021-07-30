@@ -15,11 +15,9 @@
         <activity android:name=".view.auth.SetUserInfoActivity"></activity>
         <activity android:name=".view.auth.PhoneLoginActivity" />
         <activity
-            android:name=".view.startup.WelcomeScreenActivity"
-            android:theme="@style/SplashScreenTheme" />
+            android:name=".view.startup.WelcomeScreenActivity"/>
         <activity
-            android:name=".view.startup.SplashScreenActivity"
-            android:theme="@style/SplashScreenTheme">
+            android:name=".view.startup.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

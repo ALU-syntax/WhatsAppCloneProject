@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpWithViewPager(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-        setSupportActionBar(binding.toolbar);
+//        setSupportActionBar(binding.toolbar);
 
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
