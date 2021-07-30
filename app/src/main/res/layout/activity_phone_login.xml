@@ -49,14 +49,11 @@
             android:textColor="@color/black"
             android:text="WhatsApp will send an SMS message to verify your phone number. What's my Number?"/>
 
-        <Spinner
-            android:id="@+id/spinner_country"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -94,6 +91,15 @@
             android:layout_marginTop="15dp"
             android:text="Carrie SMS Charge may apply"/>
 
+        <EditText
+            android:id="@+id/ed_code"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:maxLength="6"
+            android:inputType="number"
+            android:hint="Enter Code..."/>
+
     </LinearLayout>
 
     <Button
@@ -105,7 +111,7 @@
         android:layout_marginBottom="30dp"
         android:background="@color/colorAccent"
         android:textColor="@color/white"
-        android:text="next"/>
+        android:text="Next"/>
 
 </RelativeLayout>
 </layout>
