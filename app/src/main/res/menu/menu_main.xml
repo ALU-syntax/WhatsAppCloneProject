@@ -9,11 +9,28 @@
         android:title="Search"
         android:iconTint="@color/white"/>
 
-    <item
-        android:id="@+id/menu_more"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        app:showAsAction="always"
-        android:title="Search"
-        android:iconTint="@color/white"/>
+
+    <group
+        android:id="@+id/action_more">
+        <item
+            android:id="@+id/action_new_group"
+            android:title="New Group"/>
+
+        <item
+            android:id="@+id/action_new_broadcast"
+            android:title="New Broadcast"/>
+
+        <item
+            android:id="@+id/action_wa_web"
+            android:title="Whatsapp Web"/>
+
+        <item
+            android:id="@+id/action_stared_message"
+            android:title="Starred Message"/>
+
+        <item
+            android:id="@+id/action_setting"
+            android:title="Setting"/>
+    </group>
 
 </menu>

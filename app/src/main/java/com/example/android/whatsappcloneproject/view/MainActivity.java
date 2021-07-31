@@ -115,8 +115,16 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case R.id.menu_search :
                 Toast.makeText(MainActivity.this, "Action Search", Toast.LENGTH_SHORT).show();break;
-            case R.id.menu_more:
-                Toast.makeText(MainActivity.this, "Menu Search", Toast.LENGTH_SHORT).show();break;
+            case R.id.action_new_group:
+                Toast.makeText(MainActivity.this, "Action New Group", Toast.LENGTH_LONG).show(); break;
+            case R.id.action_new_broadcast:
+                Toast.makeText(MainActivity.this, "Action New Broadcast", Toast.LENGTH_LONG).show(); break;
+            case R.id.action_wa_web:
+                Toast.makeText(MainActivity.this, "Action Web", Toast.LENGTH_LONG).show(); break;
+            case R.id.action_stared_message:
+                Toast.makeText(MainActivity.this, "Action Stared Message", Toast.LENGTH_LONG).show(); break;
+            case R.id.action_setting:
+                Toast.makeText(MainActivity.this, "Action Setting", Toast.LENGTH_LONG).show(); break;
         }
         return super.onOptionsItemSelected(item);
     }
