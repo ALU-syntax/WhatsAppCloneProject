@@ -12,12 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsAppCloneProject">
-        <activity android:name=".view.auth.SetUserInfoActivity"></activity>
+        <activity android:name=".view.settings.SettingsActivity"></activity>
+        <activity android:name=".view.auth.SetUserInfoActivity" />
         <activity android:name=".view.auth.PhoneLoginActivity" />
-        <activity
-            android:name=".view.startup.WelcomeScreenActivity"/>
-        <activity
-            android:name=".view.startup.SplashScreenActivity">
+        <activity android:name=".view.startup.WelcomeScreenActivity" />
+        <activity android:name=".view.startup.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
