@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.example.android.whatsappcloneproject.databinding.ActivityMainBinding;
 import com.example.android.whatsappcloneproject.menu.CallsFragment;
 import com.example.android.whatsappcloneproject.menu.ChatsFragment;
 import com.example.android.whatsappcloneproject.menu.StatusFragment;
+import com.example.android.whatsappcloneproject.view.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_stared_message:
                 Toast.makeText(MainActivity.this, "Action Stared Message", Toast.LENGTH_LONG).show(); break;
             case R.id.action_setting:
-                Toast.makeText(MainActivity.this, "Action Setting", Toast.LENGTH_LONG).show(); break;
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class)); break;
         }
         return super.onOptionsItemSelected(item);
     }
