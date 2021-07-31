@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.databinding.ActivityMainBinding;
 import com.example.android.whatsappcloneproject.databinding.ActivitySettingsBinding;
+import com.example.android.whatsappcloneproject.view.profile.ProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,18 @@ public class SettingsActivity extends AppCompatActivity {
             getInfo();
         }
 
+        initClickAction();
 
+
+    }
+
+    private void initClickAction() {
+        binding.lnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+            }
+        });
     }
 
     private void getInfo(){
