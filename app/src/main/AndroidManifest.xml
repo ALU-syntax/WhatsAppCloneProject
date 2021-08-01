@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsAppCloneProject">
-        <activity android:name=".view.display.ViewImageActivity"></activity>
+        <activity android:name=".view.status.DisplayStatusActivity"></activity>
+        <activity android:name=".view.status.AddStatusPicActivity" />
+        <activity android:name=".view.display.ViewImageActivity" />
         <activity android:name=".view.profile.UserProfileActivity" />
         <activity android:name=".view.chats.ChatsActivity" />
         <activity android:name=".view.display.ReviewSendImageActivity" />
@@ -33,4 +35,5 @@
         </activity>
         <activity android:name=".view.MainActivity" />
     </application>
+
 </manifest>
