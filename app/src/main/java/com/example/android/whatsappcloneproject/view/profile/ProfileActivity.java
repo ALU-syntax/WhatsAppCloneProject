@@ -1,26 +1,42 @@
 package com.example.android.whatsappcloneproject.view.profile;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.databinding.ActivityProfileBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -30,6 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
 
     private BottomSheetDialog bottomSheetDialog;
+    private ProgressDialog progressDialog;
+
+    private int IMAGE_GALLERY_REQUEST = 111;
+    private Uri imageUri;
 
     CircularImageView circularImageView;
 
@@ -61,7 +81,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void showBottomSheetPickPhoto() {
-        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_pick, null);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_pick, null);
+
+        ((View) view.findViewById(R.id.ln_gallery)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+                bottomSheetDialog.dismiss();
+            }
+        });
+        ((View) view.findViewById(R.id.ln_camera)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Camera", Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
+            }
+        });
 
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(view);
@@ -85,9 +120,11 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String userName = documentSnapshot.getString("userName");
                 String userPhone = documentSnapshot.getString("userPhone");
+                String imageProfile = documentSnapshot.getString("imageProfile");
 
                 binding.tvUsername.setText(userName);
                 binding.tvPhone.setText(userPhone);
+                Glide.with(ProfileActivity.this).load(imageProfile).into(binding.imageProfile);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -96,6 +133,78 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void openGallery(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"select image"), IMAGE_GALLERY_REQUEST );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_GALLERY_REQUEST
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null){
+
+            imageUri = data.getData();
+
+            uploadToFirebase();
+        }
+
+        if (requestCode == 440
+                && resultCode == RESULT_OK){
+            uploadToFirebase();
+        }
+    }
+
+    private String getFileExtention(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadToFirebase() {
+        if (imageUri!=null){
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
+
+            StorageReference riversRef = FirebaseStorage.getInstance().getReference().child("ImagesProfile/" + System.currentTimeMillis()+"."+getFileExtention(imageUri));
+            riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!urlTask.isSuccessful());
+                    Uri downloadUrl = urlTask.getResult();
+
+                    final String sdownload_url = String.valueOf(downloadUrl);
+
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("imageProfile", sdownload_url);
+
+                    progressDialog.dismiss();
+                    firestore.collection("Users").document(firebaseUser.getUid()).update(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(),"upload successfully",Toast.LENGTH_SHORT).show();
+
+                                    getInfo();
+                                }
+                            });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(),"upload Failed",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 }

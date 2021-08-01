@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
-
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".view.activities.auth.SetUserInfoActivity">
 
         <LinearLayout
@@ -42,11 +41,10 @@
                 android:scaleType="centerCrop"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="20dp"
-                android:src="@drawable/ic_male_ph"
                 app:border="true"
-                app:border_color="@color/colorPrimary"
                 app:border_width="2dp"
-                />
+                app:border_color="@color/colorPrimary"
+                android:src="@drawable/icon_male_ph"/>
 
             <EditText
                 android:id="@+id/ed_name"

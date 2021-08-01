@@ -1,6 +1,7 @@
 package com.example.android.whatsappcloneproject.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.model.Chatlist;
+import com.example.android.whatsappcloneproject.view.chats.ChatsActivity;
+import com.example.android.whatsappcloneproject.view.dialog.DialogViewUser;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;
@@ -28,22 +31,43 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_chat_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_chat_list,parent,false);
         return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatListAdapter.Holder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
 
-        Chatlist chatlist = list.get(position);
+        final Chatlist chatlist = list.get(position);
 
         holder.tvName.setText(chatlist.getUserName());
         holder.tvDesc.setText(chatlist.getDescription());
         holder.tvDate.setText(chatlist.getDate());
 
-        //untuk holder gambar kita memakai glide library
-        Glide.with(context).load(chatlist.getUrlProfile()).into(holder.profile);
+        // for image we need library ...
+        if (chatlist.getUrlProfile().equals("")){
+            holder.profile.setImageResource(R.drawable.icon_male_ph);  // set  default image when profile user is null
+        } else {
+            Glide.with(context).load(chatlist.getUrlProfile()).into(holder.profile);
+        }
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, ChatsActivity.class)
+                        .putExtra("userID",chatlist.getUserID())
+                        .putExtra("userName",chatlist.getUserName())
+                        .putExtra("userProfile",chatlist.getUrlProfile()));
+            }
+        });
+
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogViewUser(context,chatlist);
+            }
+        });
     }
 
     @Override
@@ -51,7 +75,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder
         return list.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder{
+    public static class Holder extends RecyclerView.ViewHolder {
         private TextView tvName, tvDesc, tvDate;
         private CircularImageView profile;
 

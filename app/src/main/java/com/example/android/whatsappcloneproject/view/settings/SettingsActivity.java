@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.android.whatsappcloneproject.R;
 import com.example.android.whatsappcloneproject.databinding.ActivityMainBinding;
 import com.example.android.whatsappcloneproject.databinding.ActivitySettingsBinding;
@@ -59,7 +60,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String userName = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
+                String imageProfile = documentSnapshot.getString("imageProfile");
                 binding.tvUsername.setText(userName);
+                Glide.with(SettingsActivity.this).load(imageProfile).into(binding.imageProfile);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

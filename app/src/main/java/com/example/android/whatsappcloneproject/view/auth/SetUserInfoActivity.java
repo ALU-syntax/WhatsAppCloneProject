@@ -102,6 +102,7 @@ public class SetUserInfoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Please input username",Toast.LENGTH_SHORT).show();
                 } else {
                     uploadToFirebase();
+                    startActivity(new Intent(SetUserInfoActivity.this, MainActivity.class));
                 }
 
             }
@@ -112,51 +113,51 @@ public class SetUserInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // pickImage();
                 // I will do next video
-//                showBottomSheetPickPhoto();
+                showBottomSheetPickPhoto();
 
             }
         });
     }
 
 
-//    private void showBottomSheetPickPhoto() {
-//        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_pick,null);
-//
-//        ((View) view.findViewById(R.id.ln_gallery)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openGallery();
-//                bottomSheetDialog.dismiss();
-//            }
-//        });
-//        ((View) view.findViewById(R.id.ln_camera)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                //ToDo Open Camera
-//                checkCameraPermission();
-//
-//
-//                bottomSheetDialog.dismiss();
-//            }
-//        });
-//
-//        bottomSheetDialog = new BottomSheetDialog(this);
-//        bottomSheetDialog.setContentView(view);
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
-//
-//        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialog) {
-//                bottomSheetDialog=null;
-//            }
-//        });
-//
-//        bottomSheetDialog.show();
-//    }
+    private void showBottomSheetPickPhoto() {
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_pick,null);
+
+        ((View) view.findViewById(R.id.ln_gallery)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+                bottomSheetDialog.dismiss();
+            }
+        });
+        ((View) view.findViewById(R.id.ln_camera)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //ToDo Open Camera
+                checkCameraPermission();
+
+
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog=null;
+            }
+        });
+
+        bottomSheetDialog.show();
+    }
 
     private void checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
